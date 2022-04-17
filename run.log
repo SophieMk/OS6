@@ -1,0 +1,66 @@
++ make
+make: Nothing to be done for 'all'.
++ trap 'ps -fH' EXIT
++ echo create 1 -1
++ echo create 2 -1
++ sleep 0.2
++ ./controller
+Ok: 12107
+Ok: 12110
++ echo create 11 1
++ echo create 111 11
++ echo create 12 1
++ sleep 0.2
+Ok: 12116
+Ok: 12119
+Ok: 12120
++ ps -fH
+UID        PID  PPID  C STIME TTY          TIME CMD
+root       918     0  0 Apr06 pts/1    00:00:00 bash
+root     12100   918  0 22:16 pts/1    00:00:00   /bin/bash ./run.sh
+root     12101 12100  0 22:16 pts/1    00:00:00     /bin/bash ./run.sh
+root     12103 12101  0 22:16 pts/1    00:00:00       tee run.log
+root     12104 12100  0 22:16 pts/1    00:00:00     /bin/bash ./run.sh
+root     12125 12104  0 22:16 pts/1    00:00:00       ps -fH
+root     12105 12100  0 22:16 pts/1    00:00:00     ./controller
+root     12107 12105  0 22:16 pts/1    00:00:00       ./computer 1
+root     12116 12107  0 22:16 pts/1    00:00:00         ./computer 11
+root     12119 12116  0 22:16 pts/1    00:00:00           ./computer 111
+root     12120 12107  0 22:16 pts/1    00:00:00         ./computer 12
+root     12110 12105  0 22:16 pts/1    00:00:00       ./computer 2
++ echo exec 11 2 100 200
++ sleep 0.2
+Ok:11: 300
++ echo exec 21 2 100 200
++ sleep 0.2
+Error:21: Not found
++ echo pingall
++ sleep 0.2
+Ok: -1
++ pkill -9 computer
++ ps -fH
+UID        PID  PPID  C STIME TTY          TIME CMD
+root       918     0  0 Apr06 pts/1    00:00:00 bash
+root     12100   918  0 22:16 pts/1    00:00:00   /bin/bash ./run.sh
+root     12101 12100  0 22:16 pts/1    00:00:00     /bin/bash ./run.sh
+root     12103 12101  0 22:16 pts/1    00:00:00       tee run.log
+root     12104 12100  0 22:16 pts/1    00:00:00     /bin/bash ./run.sh
+root     12130 12104  0 22:16 pts/1    00:00:00       ps -fH
+root     12105 12100  0 22:16 pts/1    00:00:00     ./controller
+root     12107 12105  0 22:16 pts/1    00:00:00       [computer] <defunct>
+root     12110 12105  0 22:16 pts/1    00:00:00       [computer] <defunct>
++ echo pingall
++ sleep 0.2
++ echo exec 11 2 100 200
++ sleep 0.2
+Ok: 1;2;11;12;111
+Error:11: Node is unavailable
++ echo 'Controller exited with code 0'
+Controller exited with code 0
++ ps -fH
+UID        PID  PPID  C STIME TTY          TIME CMD
+root       918     0  0 Apr06 pts/1    00:00:00 bash
+root     12100   918  0 22:16 pts/1    00:00:00   /bin/bash ./run.sh
+root     12101 12100  0 22:16 pts/1    00:00:00     /bin/bash ./run.sh
+root     12103 12101  0 22:16 pts/1    00:00:00       tee run.log
+root     12133 12100  0 22:16 pts/1    00:00:00     ps -fH
